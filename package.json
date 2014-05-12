@@ -8,6 +8,9 @@
   },
   "author": "Alex7Kom",
   "license": "MIT",
+  "bin": {
+    "storekeeper": "./bin/storekeeper"
+  },
   "dependencies": {
     "async": "^0.8.0",
     "node-json-rpc": "0.0.1",
