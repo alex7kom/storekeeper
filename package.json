@@ -1,0 +1,18 @@
+{
+  "name": "storekeeper",
+  "version": "0.0.0",
+  "description": "Steam trading bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex7Kom",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.8.0",
+    "node-json-rpc": "0.0.1",
+    "steam": "^0.6.6",
+    "steam-trade": "git://github.com/seishun/node-steam-trade.git",
+    "steam-tradeoffers": "git://github.com/Alex7Kom/node-steam-tradeoffers.git"
+  }
+}
