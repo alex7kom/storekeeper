@@ -76,6 +76,66 @@ This says that `tradeOffers` event of `node-steam` emitted, and `arguments` arra
 
 Methods are prefixed with `steam` for `node-steam`, `trade` for `node-steam-trade`, and `tradeOffers` for `node-steam-tradeoffers`.
 
+# Example
+
+`storehouse.php` example on PHP using my [Callchedan](https://github.com/Alex7Kom/callchedan) library:
+
+```php
+require '../callchedan/lib/server.php';
+require '../callchedan/lib/client.php';
+
+$client = new Callchedan\Client('http://127.0.0.1:5080/'); // storekeeper url
+$admin = '76561197981406440'; // put your steamid here so the bot can accept your offers
+
+$methods = array(
+
+  // answer 'pong' on message 'ping'
+  'steam.friendMsg' => function ($params) use ($client, $admin) {
+    if ($params['arguments'][1] == 'ping') {
+      $client->call('steam.sendMessage', array($params['arguments'][0], 'pong'));
+    }
+  },
+
+  // auto-accept trade offers from admin
+  'steam.tradeOffers' => function ($params) use ($client, $admin) {
+    if ($params['arguments'][0] == 0) {
+      return;
+    }
+
+    $offers = $client->call('tradeOffers.getOffers', array(
+      array(
+        'get_received_offers' => 1,
+        'active_only' => 1
+      )
+    ));
+
+    if (!isset($offers[1]['response']['trade_offers_received'])) {
+      return;
+    }
+
+    $offers_received = $offers[1]['response']['trade_offers_received'];
+
+    if (count($offers_received) == 0) {
+      return;
+    }
+
+    foreach ($offers_received as $offer) {
+      if ($offer['trade_offer_state'] == 2){
+        if($offer['steamid_other'] == $admin) {
+          $client->call('tradeOffers.acceptOffer', array($offer['tradeofferid']));
+        } else {
+          $client->call('tradeOffers.declineOffer', array($offer['tradeofferid']));
+        }
+      }
+    }
+  }
+
+);
+
+$server = new Callchedan\Server($methods);
+echo $server->handle();
+```
+
 # Advanced configuration
 
 TODO
