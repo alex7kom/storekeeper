@@ -138,7 +138,77 @@ echo $server->handle();
 
 # Advanced configuration
 
-TODO
+Storekeeper config is a normal JSON file.
+
+```json
+{
+  "steamUsername": "misaki58",
+  "steamPassword": "password",
+  "steamGuard": [
+    115,
+    ...
+    232
+  ],
+  "server": {
+    "port": 5080,
+    "host": "127.0.0.1",
+    "path": "/",
+    "strict": true
+  },
+  "client": {
+    "port": 80,
+    "host": "example.com",
+    "path": "/path/to/your/rpc/server.php",
+    "strict": true
+  }
+}
+```
+
+What you absolutely MUST understand, that config file contains all credentials of a Steam account, including authenticated Steam Guard property, and you absolutely must not handle it to anyone nor post it anywhere, including issue tracker of this project.
+
+## Blacklisting/whitelisting of methods and events
+
+You can whitelist methods so only listed methods will be allowed to be called. For example:
+
+```json
+  "methodsWhitelist": ["steam.sendMessage", "steam.joinChat"]
+```
+
+Storekeeper will be allowed to handle only `steam.sendMessage` and `steam.joinChat` calls.
+
+Blacklist allows you to specify methods you don't want to be called. For example:
+
+```json
+  "methodsBlacklist": ["steam.sendMessage", "steam.joinChat"]
+```
+
+Storekeeper will not be allowed to handle `steam.sendMessage` and `steam.joinChat` calls.
+
+Note that blacklist is completely ignored if whitelist exists.
+
+Listing events is very similar:
+
+```json
+  "eventsWhitelist": ["steam.friendMsg", "steam.chatMsg"]
+```
+
+Storekeeper will listen and notify you about `steam.friendMsg` and `steam.chatMsg` only.
+
+```json
+  "eventsBlacklist": ["steam.friendMsg", "steam.chatMsg"]
+```
+
+Storekeeper will not listen for these events.
+
+Again, blacklist will be ignored if whitelist is present.
+
+## Security
+
+If your storekeeper listens for external connections, you must take additional security measures.
+
+You shouldn't rely on [security through obscurity](https://en.wikipedia.org/wiki/Security_through_obscurity) to secure your storekeeper. Simply keeping JSON-RPC entry points in secrecy is probably not a good idea.
+
+TODO: Info about HTTP auth and SSL.
 
 # How to contribute
 
