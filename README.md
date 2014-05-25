@@ -105,7 +105,8 @@ $methods = array(
     $offers = $client->call('tradeOffers.getOffers', array(
       array(
         'get_received_offers' => 1,
-        'active_only' => 1
+        'active_only' => 1,
+        'time_historical_cutoff' => time()
       )
     ));
 
