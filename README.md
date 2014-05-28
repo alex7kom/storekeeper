@@ -2,7 +2,7 @@
 
 __IMPORTANT__: This is mainly an experiment, and you must think twice before using this in production!
 
-Storekeeper is a Steam bot powered by [node-steam](https://github.com/seishun/node-steam) and its plugins. While Storekeeper writen in Node.js, you don't need to write any JS code to use it, since you can control Storekeeper bot via [JSON-RPC](#) protocol using any implementation of JSON-RPC 2.0 you like on any programming language you like (PHP, for example).
+Storekeeper is a Steam bot powered by [node-steam](https://github.com/seishun/node-steam) and its plugins. While Storekeeper writen in Node.js, you don't need to write any JS code to use it, since you can control Storekeeper bot via [JSON-RPC](http://www.jsonrpc.org/) protocol using any implementation of JSON-RPC 2.0 you like on any programming language you like (PHP, for example).
 
 _In fact, if you can code in Node.js, .NET or Java, I strongly advise you to NOT use Storekeeper, since you can achieve a better perfomance and stability using [SteamKit2](https://github.com/SteamRE/SteamKit) and its ports directly._
 
