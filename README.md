@@ -209,7 +209,45 @@ If your storekeeper listens for external connections, you must take additional s
 
 You shouldn't rely on [security through obscurity](https://en.wikipedia.org/wiki/Security_through_obscurity) to secure your storekeeper. Simply keeping JSON-RPC entry points in secrecy is probably not a good idea.
 
-TODO: Info about HTTP auth and SSL.
+TODO: Info about SSL.
+
+### Basic HTTP Auth
+
+Storekeeper supports [basic access HTTP authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) via [node-json-rpc](https://github.com/NemoPersona/node-json-rpc) module.
+
+To configure Storekeeper to require authentication, include `auth` block as shown below:
+
+```json
+  "server": {
+    "port": 5080,
+    "host": "127.0.0.1",
+    "path": "/",
+    "strict": true",
+    "auth": {
+      "users": [
+        {
+          "login": "user",
+          "hash": "password"
+        }
+      ]
+    }
+  }
+```
+
+Then you'll need to configure your JSON-RPC client according its docs to enable basic auth.
+
+If you have basic HTTP auth enabled on your JSON-RPC server, you can configure Storekeeper like so:
+
+```json
+  "client": {
+    "port": 80,
+    "host": "example.com",
+    "path": "/path/to/your/rpc/server.php",
+    "strict": true,
+    "login": "user",
+    "hash": "password"
+  }
+```
 
 # How to contribute
 
