@@ -11,7 +11,7 @@ _In fact, if you can code in Node.js, .NET or Java, I strongly advise you to NOT
 First, you need [Node.js](http://nodejs.org/) installed. Then just do:
 
 ```
-npm install -g git://github.com/Alex7Kom/storekeeper.git
+npm install -g steam-storekeeper
 ```
 
 # Getting started
