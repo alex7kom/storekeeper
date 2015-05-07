@@ -76,9 +76,34 @@ This says that `tradeOffers` event of `node-steam` emitted, and `arguments` arra
 
 Methods are prefixed with `steam` for `node-steam`, `trade` for `node-steam-trade`, and `tradeOffers` for `node-steam-tradeoffers`.
 
-# Example
+# Examples
 
-`storehouse.php` example on PHP using my [Callchedan](https://github.com/Alex7Kom/callchedan) library:
+Examples here use my [Callchedan](https://github.com/Alex7Kom/callchedan) JSON-RPC library for PHP.
+
+`pingpong.php` answers `pong` on your `ping` messages in Steam Friend Chat:
+
+ ```php
+require '../callchedan/lib/server.php';
+require '../callchedan/lib/client.php';
+
+$client = new Callchedan\Client('http://127.0.0.1:5080/'); // storekeeper url
+
+$methods = array(
+
+  // answer 'pong' on message 'ping'
+  'steam.friendMsg' => function ($params) use ($client) {
+    if ($params['arguments'][1] == 'ping') {
+      $client->call('steam.sendMessage', array($params['arguments'][0], 'pong'));
+    }
+  }
+
+);
+
+$server = new Callchedan\Server($methods);
+echo $server->handle();
+```
+
+`storehouse.php` auto-accepts your trade offers:
 
 ```php
 require '../callchedan/lib/server.php';
@@ -88,13 +113,6 @@ $client = new Callchedan\Client('http://127.0.0.1:5080/'); // storekeeper url
 $admin = '76561197981406440'; // put your steamid here so the bot can accept your offers
 
 $methods = array(
-
-  // answer 'pong' on message 'ping'
-  'steam.friendMsg' => function ($params) use ($client, $admin) {
-    if ($params['arguments'][1] == 'ping') {
-      $client->call('steam.sendMessage', array($params['arguments'][0], 'pong'));
-    }
-  },
 
   // auto-accept trade offers from admin
   'steam.tradeOffers' => function ($params) use ($client, $admin) {
@@ -123,9 +141,17 @@ $methods = array(
     foreach ($offers_received as $offer) {
       if ($offer['trade_offer_state'] == 2){
         if($offer['steamid_other'] == $admin) {
-          $client->call('tradeOffers.acceptOffer', array($offer['tradeofferid']));
+          $client->call('tradeOffers.acceptOffer', array(
+            array(
+              'tradeOfferId' => $offer['tradeofferid']
+            )
+          ));
         } else {
-          $client->call('tradeOffers.declineOffer', array($offer['tradeofferid']));
+          $client->call('tradeOffers.declineOffer', array(
+            array(
+              'tradeOfferId' => $offer['tradeofferid']
+            )
+          ));
         }
       }
     }
